@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { DemoProvider, useDemo } from './context/DemoContext';
+import { LoadingScreen } from './components/common/LoadingScreen';
 import { DemoHeaderRibbon } from './components/common/DemoHeaderRibbon';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -73,6 +74,13 @@ const AppContent: React.FC = () => {
 };
 
 export const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const handleLoadingComplete = useCallback(() => setIsLoading(false), []);
+
+  if (isLoading) {
+    return <LoadingScreen onComplete={handleLoadingComplete} />;
+  }
+
   return (
     <DemoProvider>
       <AppContent />
